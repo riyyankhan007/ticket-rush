@@ -6,13 +6,9 @@ import com.riyyan.ticketrush.entity.Booking;
 import com.riyyan.ticketrush.entity.Show;
 import com.riyyan.ticketrush.entity.ShowSeat;
 import com.riyyan.ticketrush.entity.User;
-import com.riyyan.ticketrush.enums.BookingStatus;
-import com.riyyan.ticketrush.enums.SeatStatus;
-import com.riyyan.ticketrush.repository.BookingRepository;
 import com.riyyan.ticketrush.repository.ShowRepository;
-import com.riyyan.ticketrush.repository.ShowSeatRepository;
 import com.riyyan.ticketrush.repository.UserRepository;
-import com.riyyan.ticketrush.service.BookingService;
+import com.riyyan.ticketrush.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +20,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
 
-    private final BookingRepository bookingRepository;
     private final UserRepository userRepository;
     private final ShowRepository showRepository;
-    private final ShowSeatRepository showSeatRepository;
+
+    private final SeatValidator seatValidator;
+    private final ReservationService reservationService;
+    private final PricingService pricingService;
+    private final BookingPersistenceService bookingPersistenceService;
 
     @Override
     @Transactional
@@ -40,49 +39,25 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new RuntimeException("Show not found"));
 
         List<ShowSeat> showSeats =
-                showSeatRepository.findAllByIdIn(request.getShowSeatIds());
+                seatValidator.validate(request.getShowSeatIds());
 
-        for (ShowSeat showSeat : showSeats) {
+        BigDecimal totalAmount =
+                pricingService.calculate(showSeats);
 
-            if (showSeat.getStatus() == SeatStatus.BOOKED) {
-                throw new RuntimeException(
-                        "Seat already booked : "
-                                + showSeat.getSeat().getRowName()
-                                + showSeat.getSeat().getSeatNumber()
-                );
-            }
-        }
+        reservationService.reserve(showSeats);
 
-        BigDecimal totalAmount = BigDecimal.ZERO;
-
-        for (ShowSeat showSeat : showSeats) {
-
-            showSeat.setStatus(SeatStatus.BOOKED);
-
-            totalAmount = totalAmount.add(showSeat.getPrice());
-        }
-
-        showSeatRepository.saveAll(showSeats);
-
-        Booking booking = new Booking();
-
-        booking.setUser(user);
-        booking.setShow(show);
-        booking.setBookingStatus(BookingStatus.CONFIRMED);
-        booking.setTotalAmount(totalAmount);
-
-        Booking savedBooking = bookingRepository.save(booking);
+        Booking booking =
+                bookingPersistenceService.save(user, show, totalAmount);
 
         return BookingResponse.builder()
-                .bookingId(savedBooking.getId())
-                .status(savedBooking.getBookingStatus())
-                .totalAmount(savedBooking.getTotalAmount())
-                .createdAt(savedBooking.getCreatedAt())
+                .bookingId(booking.getId())
+                .status(booking.getBookingStatus())
+                .totalAmount(booking.getTotalAmount())
+                .createdAt(booking.getCreatedAt())
                 .seats(
                         showSeats.stream()
-                                .map(s ->
-                                        s.getSeat().getRowName()
-                                                + s.getSeat().getSeatNumber())
+                                .map(s -> s.getSeat().getRowName()
+                                        + s.getSeat().getSeatNumber())
                                 .toList()
                 )
                 .build();
