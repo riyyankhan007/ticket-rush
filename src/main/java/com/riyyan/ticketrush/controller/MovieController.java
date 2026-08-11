@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class MovieController {
 
     private final MovieService movieService;
 
+    @PreAuthorize("hasAnyRole('STUDIO_OWNER', 'ADMIN')")
     @PostMapping
     public ResponseEntity<ApiResponse<MovieResponse>> createMovie(
             @Valid @RequestBody CreateMovieRequest request) {
@@ -58,6 +60,7 @@ public class MovieController {
         );
     }
 
+    @PreAuthorize("hasAnyRole('STUDIO_OWNER', 'ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMovie(
             @PathVariable Long id) {

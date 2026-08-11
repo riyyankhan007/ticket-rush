@@ -8,8 +8,14 @@ import com.riyyan.ticketrush.entity.ShowSeat;
 import com.riyyan.ticketrush.entity.User;
 import com.riyyan.ticketrush.repository.ShowRepository;
 import com.riyyan.ticketrush.repository.UserRepository;
-import com.riyyan.ticketrush.service.*;
+import com.riyyan.ticketrush.service.BookingPersistenceService;
+import com.riyyan.ticketrush.service.BookingService;
+import com.riyyan.ticketrush.service.PricingService;
+import com.riyyan.ticketrush.service.ReservationService;
+import com.riyyan.ticketrush.service.SeatValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,14 +38,28 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public BookingResponse bookSeats(CreateBookingRequest request) {
 
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        Authentication authentication =
+                SecurityContextHolder.getContext()
+                        .getAuthentication();
+
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
 
         Show show = showRepository.findById(request.getShowId())
-                .orElseThrow(() -> new RuntimeException("Show not found"));
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Show not found with id: "
+                                        + request.getShowId()
+                        ));
 
         List<ShowSeat> showSeats =
-                seatValidator.validate(request.getShowSeatIds());
+                seatValidator.validate(
+                        request.getShowId(),
+                        request.getShowSeatIds()
+                );
 
         BigDecimal totalAmount =
                 pricingService.calculate(showSeats);
@@ -47,7 +67,11 @@ public class BookingServiceImpl implements BookingService {
         reservationService.reserve(showSeats);
 
         Booking booking =
-                bookingPersistenceService.save(user, show, totalAmount);
+                bookingPersistenceService.save(
+                        user,
+                        show,
+                        totalAmount
+                );
 
         return BookingResponse.builder()
                 .bookingId(booking.getId())
@@ -56,8 +80,10 @@ public class BookingServiceImpl implements BookingService {
                 .createdAt(booking.getCreatedAt())
                 .seats(
                         showSeats.stream()
-                                .map(s -> s.getSeat().getRowName()
-                                        + s.getSeat().getSeatNumber())
+                                .map(s ->
+                                        s.getSeat().getRowName()
+                                                + s.getSeat().getSeatNumber()
+                                )
                                 .toList()
                 )
                 .build();

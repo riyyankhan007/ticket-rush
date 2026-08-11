@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +18,7 @@ public class ScreenController {
 
     private final ScreenService screenService;
 
+    @PreAuthorize("hasAnyRole('THEATRE_OWNER', 'ADMIN')")
     @PostMapping
     public ResponseEntity<ApiResponse<ScreenResponse>> createScreen(
             @Valid @RequestBody CreateScreenRequest request) {

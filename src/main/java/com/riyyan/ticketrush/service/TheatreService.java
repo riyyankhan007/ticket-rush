@@ -10,4 +10,10 @@ public interface TheatreService {
     TheatreResponse createTheatre(CreateTheatreRequest request);
 
     List<TheatreResponse> getAllTheatres();
+
+    List<TheatreResponse> getMyTheatres();
+
+    TheatreResponse updateTheatre(Long id, CreateTheatreRequest request);
+
+    void deleteTheatre(Long id);
 }

@@ -1,5 +1,6 @@
 package com.riyyan.ticketrush.service.impl;
 
+import com.riyyan.ticketrush.auth.authorization.TheatreAuthorizationService;
 import com.riyyan.ticketrush.dto.request.CreateScreenRequest;
 import com.riyyan.ticketrush.dto.response.ScreenResponse;
 import com.riyyan.ticketrush.entity.Screen;
@@ -9,10 +10,10 @@ import com.riyyan.ticketrush.enums.SeatType;
 import com.riyyan.ticketrush.mapper.ScreenMapper;
 import com.riyyan.ticketrush.repository.ScreenRepository;
 import com.riyyan.ticketrush.repository.SeatRepository;
-import com.riyyan.ticketrush.repository.TheatreRepository;
 import com.riyyan.ticketrush.service.ScreenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,19 +23,24 @@ import java.util.List;
 public class ScreenServiceImpl implements ScreenService {
 
     private final ScreenRepository screenRepository;
-    private final TheatreRepository theatreRepository;
     private final SeatRepository seatRepository;
+    private final TheatreAuthorizationService theatreAuthorizationService;
 
     @Override
+    @Transactional
     public ScreenResponse createScreen(CreateScreenRequest request) {
 
-        Theatre theatre = theatreRepository.findById(request.getTheatreId())
-                .orElseThrow(() ->
-                        new RuntimeException("Theatre not found"));
+        Theatre theatre =
+                theatreAuthorizationService.getAuthorizedTheatre(
+                        request.getTheatreId()
+                );
 
         Screen screen = new Screen();
+
         screen.setName(request.getName());
-        screen.setTotalSeats(request.getRows() * request.getSeatsPerRow());
+        screen.setTotalSeats(
+                request.getRows() * request.getSeatsPerRow()
+        );
         screen.setTheatre(theatre);
 
         Screen savedScreen = screenRepository.save(screen);
@@ -45,7 +51,9 @@ public class ScreenServiceImpl implements ScreenService {
 
             char rowName = (char) ('A' + row);
 
-            for (int seatNo = 1; seatNo <= request.getSeatsPerRow(); seatNo++) {
+            for (int seatNo = 1;
+                 seatNo <= request.getSeatsPerRow();
+                 seatNo++) {
 
                 Seat seat = new Seat();
 

@@ -12,12 +12,8 @@ import java.util.List;
 public class CreateBookingRequest {
 
     @NotNull
-    private Long userId;
-
-    @NotNull
     private Long showId;
 
     @NotEmpty
     private List<Long> showSeatIds;
-
 }

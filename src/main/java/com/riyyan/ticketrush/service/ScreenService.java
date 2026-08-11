@@ -6,5 +6,4 @@ import com.riyyan.ticketrush.dto.response.ScreenResponse;
 public interface ScreenService {
 
     ScreenResponse createScreen(CreateScreenRequest request);
-
 }
