@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,4 +29,7 @@ public class Booking extends BaseEntity {
 
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
+
+    @OneToMany(mappedBy = "booking")
+    private List<ShowSeat> showSeats = new ArrayList<>();
 }

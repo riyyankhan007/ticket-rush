@@ -21,6 +21,10 @@ public class ShowSeat extends BaseEntity {
     @JoinColumn(name = "seat_id")
     private Seat seat;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "booking_id")
+    private Booking booking;
+
     @Enumerated(EnumType.STRING)
     private SeatStatus status;
 
