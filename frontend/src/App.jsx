@@ -1,6 +1,11 @@
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import "./App.css";
+
 import Movies from "./pages/Movies";
+import MovieDetails from "./pages/MovieDetails";
+import SeatSelection from "./pages/SeatSelection";
+import BookingSuccess from "./pages/BookingSuccess";
+import Login from "./pages/Login";
 
 function Home() {
   return (
@@ -84,18 +89,6 @@ function MovieCard({ title, genre, duration }) {
   );
 }
 
-function Login() {
-  return (
-    <main className="page">
-      <div className="page-heading">
-        <span className="section-eyebrow">WELCOME BACK</span>
-        <h1>Login</h1>
-        <p>Your authentication form comes next.</p>
-      </div>
-    </main>
-  );
-}
-
 function Register() {
   return (
     <main className="page">
@@ -150,6 +143,21 @@ function App() {
           <Route path="/" element={<Home />} />
 
           <Route path="/movies" element={<Movies />} />
+
+          <Route
+            path="/movies/:movieId"
+            element={<MovieDetails />}
+          />
+
+          <Route
+            path="/shows/:showId/seats"
+            element={<SeatSelection />}
+          />
+
+          <Route
+            path="/booking/success"
+            element={<BookingSuccess />}
+          />
 
           <Route path="/login" element={<Login />} />
 

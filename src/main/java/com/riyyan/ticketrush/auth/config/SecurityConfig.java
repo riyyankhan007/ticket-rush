@@ -91,25 +91,37 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
+                        // Authentication
                         .requestMatchers(
                                 "/auth/**"
                         ).permitAll()
 
+                        // Swagger / OpenAPI
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+
+                        // Public movie APIs
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/api/v1/movies/**"
                         ).permitAll()
 
+                        // Public theatre APIs
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/api/v1/theatres/**"
                         ).permitAll()
 
+                        // Public show APIs
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/api/v1/shows/**"
                         ).permitAll()
 
+                        // Everything else requires JWT
                         .anyRequest().authenticated()
                 )
 
