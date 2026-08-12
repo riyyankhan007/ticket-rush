@@ -1,0 +1,337 @@
+/* =========================================
+   MOVIE DETAILS PAGE
+========================================= */
+
+.movie-details-page {
+  width: 100%;
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding: 72px 48px 100px;
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   BACK LINK
+========================================= */
+
+.movie-details-back {
+  display: inline-flex;
+  align-items: center;
+
+  margin-bottom: 42px;
+
+  color: #b9b9c8;
+
+  font-size: 0.95rem;
+
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.movie-details-back:hover {
+  color: #8b5cf6;
+
+  transform: translateX(-3px);
+}
+
+/* =========================================
+   MOVIE DETAILS LAYOUT
+========================================= */
+
+.movie-details {
+  display: grid;
+
+  grid-template-columns:
+    360px
+    minmax(0, 1fr);
+
+  gap: 64px;
+
+  align-items: start;
+}
+
+/* =========================================
+   POSTER
+========================================= */
+
+.movie-details-poster {
+  width: 100%;
+
+  aspect-ratio: 2 / 3;
+
+  overflow: hidden;
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(139, 92, 246, 0.3),
+      transparent
+    ),
+    #1b1b24;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.35);
+}
+
+.movie-details-poster img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+.movie-details-poster span {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: rgba(255, 255, 255, 0.2);
+
+  font-size: 7rem;
+  font-weight: 900;
+}
+
+/* =========================================
+   MOVIE INFORMATION
+========================================= */
+
+.movie-details-content {
+  min-width: 0;
+
+  padding-top: 18px;
+}
+
+.movie-details-content .section-eyebrow {
+  display: block;
+
+  margin-bottom: 18px;
+}
+
+.movie-details-content h1 {
+  margin: 0 0 20px;
+
+  font-size: clamp(3rem, 5vw, 5rem);
+
+  line-height: 0.95;
+
+  letter-spacing: -0.04em;
+
+  overflow-wrap: anywhere;
+}
+
+.movie-details-meta {
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-bottom: 32px;
+
+  color: #a8a8b8;
+
+  font-size: 1rem;
+}
+
+.movie-details-description {
+  max-width: 720px;
+
+  margin: 0 0 44px;
+
+  color: #b7b7c5;
+
+  font-size: 1.05rem;
+
+  line-height: 1.7;
+}
+
+/* =========================================
+   SHOWTIMES SECTION
+========================================= */
+
+.showtimes-section {
+  padding-top: 34px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.showtimes-section .section-eyebrow {
+  display: block;
+
+  margin-bottom: 12px;
+}
+
+.showtimes-section h2 {
+  margin: 0 0 24px;
+
+  font-size: 2rem;
+
+  letter-spacing: -0.03em;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+  .movie-details-page {
+    padding: 64px 32px 90px;
+  }
+
+  .movie-details {
+    grid-template-columns:
+      280px
+      minmax(0, 1fr);
+
+    gap: 40px;
+  }
+
+  .movie-details-content h1 {
+    font-size: clamp(2.8rem, 5vw, 4rem);
+  }
+}
+
+/* =========================================
+   SMALL TABLET
+========================================= */
+
+@media (max-width: 800px) {
+  .movie-details-page {
+    padding: 52px 24px 80px;
+  }
+
+  .movie-details {
+    grid-template-columns: 1fr;
+
+    gap: 40px;
+  }
+
+  .movie-details-poster {
+    width: min(100%, 300px);
+
+    margin: 0 auto;
+  }
+
+  .movie-details-content {
+    padding-top: 0;
+  }
+
+  .movie-details-content h1 {
+    font-size: clamp(2.8rem, 9vw, 4rem);
+  }
+
+  .movie-details-description {
+    margin-bottom: 36px;
+
+    font-size: 1rem;
+  }
+
+  .showtimes-section {
+    padding-top: 28px;
+  }
+
+  .showtimes-section h2 {
+    font-size: 1.7rem;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .movie-details-page {
+    padding: 40px 20px 70px;
+  }
+
+  .movie-details-back {
+    margin-bottom: 30px;
+
+    font-size: 0.9rem;
+  }
+
+  .movie-details {
+    gap: 32px;
+  }
+
+  .movie-details-poster {
+    width: min(100%, 260px);
+
+    border-radius: 18px;
+  }
+
+  .movie-details-content h1 {
+    margin-bottom: 16px;
+
+    font-size: clamp(2.5rem, 13vw, 3.5rem);
+  }
+
+  .movie-details-meta {
+    gap: 7px;
+
+    margin-bottom: 24px;
+
+    font-size: 0.88rem;
+  }
+
+  .movie-details-description {
+    margin-bottom: 30px;
+
+    font-size: 0.95rem;
+
+    line-height: 1.65;
+  }
+
+  .showtimes-section {
+    padding-top: 24px;
+  }
+
+  .showtimes-section h2 {
+    margin-bottom: 20px;
+
+    font-size: 1.5rem;
+  }
+}
+
+/* =========================================
+   SMALL PHONES
+========================================= */
+
+@media (max-width: 400px) {
+  .movie-details-page {
+    padding: 34px 16px 60px;
+  }
+
+  .movie-details-poster {
+    width: min(100%, 230px);
+  }
+
+  .movie-details-content h1 {
+    font-size: 2.35rem;
+  }
+
+  .movie-details-meta {
+    font-size: 0.82rem;
+  }
+
+  .movie-details-description {
+    font-size: 0.9rem;
+  }
+}

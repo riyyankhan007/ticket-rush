@@ -1,0 +1,245 @@
+/* =========================================
+   SHOWTIMES
+========================================= */
+
+.showtime-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  width: 100%;
+}
+
+.showtime-card {
+  display: grid;
+
+  grid-template-columns:
+    130px
+    110px
+    minmax(120px, 1fr)
+    80px
+    auto;
+
+  align-items: center;
+
+  gap: 20px;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 18px 22px;
+
+  background: #121218;
+
+  border: 1px solid rgba(255, 255, 255, 0.07);
+
+  border-radius: 18px;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.showtime-card:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(139, 92, 246, 0.45);
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================================
+   SHOWTIME CONTENT
+========================================= */
+
+.showtime-date {
+  color: #f5f5f7;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.showtime-time {
+  color: #f5f5f7;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.showtime-theatre {
+  min-width: 0;
+
+  overflow: hidden;
+
+  color: #9a9aa8;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.showtime-price {
+  color: #d0d0da;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+/* =========================================
+   SELECT SEATS
+========================================= */
+
+.select-seats-button {
+  min-height: 44px;
+
+  padding: 11px 18px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #8b5cf6;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 0.9rem;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.select-seats-button:hover {
+  background: #7c3aed;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 20px rgba(139, 92, 246, 0.2);
+}
+
+.select-seats-button:active {
+  transform: translateY(0);
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1000px) {
+  .showtime-card {
+    grid-template-columns:
+      1fr
+      1fr;
+
+    gap: 14px;
+  }
+
+  .showtime-theatre {
+    grid-column: 1 / -1;
+  }
+
+  .showtime-price {
+    grid-column: 1;
+  }
+
+  .select-seats-button {
+    grid-column: 2;
+
+    justify-self: end;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .showtime-list {
+    gap: 12px;
+  }
+
+  .showtime-card {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 11px;
+
+    padding: 16px;
+
+    border-radius: 15px;
+  }
+
+  .showtime-date {
+    font-size: 0.88rem;
+  }
+
+  .showtime-time {
+    font-size: 1.05rem;
+  }
+
+  .showtime-theatre {
+    width: 100%;
+
+    font-size: 0.84rem;
+  }
+
+  .showtime-price {
+    font-size: 0.95rem;
+  }
+
+  .select-seats-button {
+    width: 100%;
+
+    margin-top: 4px;
+  }
+}
+
+/* =========================================
+   SMALL PHONES
+========================================= */
+
+@media (max-width: 380px) {
+  .showtime-card {
+    padding: 14px;
+  }
+
+  .showtime-date {
+    font-size: 0.82rem;
+  }
+
+  .showtime-time {
+    font-size: 1rem;
+  }
+
+  .showtime-theatre {
+    font-size: 0.78rem;
+  }
+
+  .showtime-price {
+    font-size: 0.88rem;
+  }
+
+  .select-seats-button {
+    min-height: 42px;
+
+    font-size: 0.85rem;
+  }
+}

@@ -1,29 +1,51 @@
 import { Link } from "react-router-dom";
 
 function MovieCard({ movie }) {
-    return (
-        <Link to={`/movies/${movie.id}`} className="movie-card">
+  return (
+    <Link
+      to={`/movies/${movie.id}`}
+      className="movie-card"
+    >
+      <div className="movie-poster">
 
-            <div className="movie-poster">
-                <span>{movie.title.charAt(0)}</span>
-            </div>
+        {movie.imageUrl ? (
+          <img
+            src={movie.imageUrl}
+            alt={`${movie.title} poster`}
+          />
+        ) : (
+          <span>
+            {movie.title?.charAt(0) || "M"}
+          </span>
+        )}
 
-            <div className="movie-info">
+      </div>
 
-                <h3>{movie.title}</h3>
+      <div className="movie-info">
 
-                <div className="movie-meta">
-                    <span>{movie.language}</span>
-                    <span>•</span>
-                    <span>{movie.genre}</span>
-                    <span>•</span>
-                    <span>{movie.duration} min</span>
-                </div>
+        <h3>
+          {movie.title}
+        </h3>
 
-            </div>
+        <div className="movie-meta">
 
-        </Link>
-    );
+          <span>
+            {movie.genre || "Unknown"}
+          </span>
+
+          <span>•</span>
+
+          <span>
+            {movie.durationMinutes
+              ? `${movie.durationMinutes} min`
+              : "N/A"}
+          </span>
+
+        </div>
+
+      </div>
+    </Link>
+  );
 }
 
 export default MovieCard;

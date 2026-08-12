@@ -1,0 +1,171 @@
+/* =========================
+   GLOBAL RESET
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  background: #0a0a0d;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  background: #0a0a0d;
+  color: #f5f5f7;
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-top: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* =========================
+   APP BACKGROUND
+========================= */
+
+.app {
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 80% 10%,
+      rgba(120, 79, 255, 0.16),
+      transparent 30%
+    ),
+    #0a0a0d;
+}
+
+/* =========================
+   COMMON
+========================= */
+
+.eyebrow,
+.section-eyebrow {
+  display: inline-block;
+
+  margin-bottom: 14px;
+
+  color: #a78bfa;
+
+  font-size: 0.75rem;
+  font-weight: 800;
+
+  letter-spacing: 0.16em;
+}
+
+.page {
+  min-height: calc(100vh - 76px);
+  padding: 100px 5vw;
+}
+
+.page-heading {
+  max-width: 700px;
+}
+
+.page-heading h1 {
+  margin: 0;
+
+  font-size: clamp(2rem, 4vw, 3.5rem);
+
+  letter-spacing: -0.05em;
+}
+
+.page-heading p {
+  margin-top: 14px;
+
+  color: #9797a3;
+
+  font-size: 1rem;
+}
+/* ================================
+   RESPONSIVE NAVBAR
+================================ */
+
+@media (max-width: 800px) {
+  .navbar {
+    padding: 18px 24px;
+  }
+
+  .nav-links {
+    gap: 18px;
+  }
+
+  .nav-links a {
+    font-size: 0.9rem;
+  }
+
+  .nav-actions {
+    gap: 12px;
+  }
+
+  .account-label {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .brand {
+    font-size: 1.1rem;
+  }
+
+  .nav-links {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav-actions {
+    margin-left: auto;
+  }
+}

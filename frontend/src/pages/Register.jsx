@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { Link,useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import api from "../api/axios";
 import { useAuth } from "../context/AuthContext";
 
-function Login() {
+function Register() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const location = useLocation();
 
   const [form, setForm] = useState({
+    name: "",
     email: "",
     password: "",
   });
@@ -31,15 +31,20 @@ function Login() {
 
     setError("");
 
-    if (!form.email.trim() || !form.password) {
-      setError("Please enter your email and password.");
+    if (
+      !form.name.trim() ||
+      !form.email.trim() ||
+      !form.password
+    ) {
+      setError("Please fill in all fields.");
       return;
     }
 
     setLoading(true);
 
     try {
-      const response = await api.post("/auth/login", {
+      const response = await api.post("/auth/signup", {
+        name: form.name.trim(),
         email: form.email.trim(),
         password: form.password,
       });
@@ -52,21 +57,18 @@ function Login() {
         );
       }
 
-      // AuthContext handles localStorage + React state
       login(accessToken);
 
-      const from = location.state?.from?.pathname || "/movies";
-
-      navigate(from, { replace: true });
+      navigate("/movies", { replace: true });
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("Registration failed:", error);
 
-      if (error.response?.status === 401) {
-        setError("Invalid email or password.");
-      } else if (error.response?.data?.message) {
+      if (error.response?.data?.message) {
         setError(error.response.data.message);
       } else {
-        setError("Unable to login. Please try again.");
+        setError(
+          "Unable to create account. Please try again."
+        );
       }
     } finally {
       setLoading(false);
@@ -77,13 +79,13 @@ function Login() {
     <main className="auth-page">
       <div className="auth-card">
         <span className="section-eyebrow">
-          WELCOME BACK
+          TICKETRUSH
         </span>
 
-        <h1>Login</h1>
+        <h1>Create account</h1>
 
         <p className="auth-subtitle">
-          Sign in to continue your TicketRush experience.
+          Create your account and start booking.
         </p>
 
         {error && (
@@ -93,6 +95,23 @@ function Login() {
         )}
 
         <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name">
+              Name
+            </label>
+
+            <input
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Your name"
+              value={form.name}
+              onChange={handleChange}
+              autoComplete="name"
+              required
+            />
+          </div>
+
           <div className="form-group">
             <label htmlFor="email">
               Email
@@ -119,10 +138,10 @@ function Login() {
               id="password"
               name="password"
               type="password"
-              placeholder="Enter your password"
+              placeholder="Create a password"
               value={form.password}
               onChange={handleChange}
-              autoComplete="current-password"
+              autoComplete="new-password"
               required
             />
           </div>
@@ -133,15 +152,15 @@ function Login() {
             disabled={loading}
           >
             {loading
-              ? "Signing in..."
-              : "Login"}
+              ? "Creating account..."
+              : "Create account"}
           </button>
         </form>
 
         <p className="auth-footer">
-          Don't have an account?{" "}
-          <Link to="/register">
-            Sign up
+          Already have an account?{" "}
+          <Link to="/login">
+            Login
           </Link>
         </p>
       </div>
@@ -149,4 +168,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

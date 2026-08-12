@@ -1,0 +1,376 @@
+/* =========================================
+   NAVBAR
+========================================= */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  min-height: 76px;
+  padding: 0 5vw;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+
+  background: rgba(10, 10, 13, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* =========================================
+   BRAND
+========================================= */
+
+.brand {
+  flex-shrink: 0;
+
+  color: #ffffff;
+
+  font-size: 1.25rem;
+  font-weight: 900;
+
+  letter-spacing: -0.04em;
+  text-decoration: none;
+
+  white-space: nowrap;
+}
+
+.brand span {
+  color: #8b5cf6;
+}
+
+/* =========================================
+   NAV LINKS
+========================================= */
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 32px;
+
+  flex: 1;
+}
+
+.nav-links a,
+.login-link {
+  position: relative;
+
+  color: #a8a8b3;
+
+  font-size: 0.92rem;
+  font-weight: 500;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.nav-links a:hover,
+.login-link:hover {
+  color: #ffffff;
+}
+
+/* subtle underline */
+
+.nav-links a::after,
+.login-link::after {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+
+  width: 0;
+  height: 2px;
+
+  border-radius: 999px;
+
+  background: #8b5cf6;
+
+  transition: width 0.2s ease;
+}
+
+.nav-links a:hover::after,
+.login-link:hover::after {
+  width: 100%;
+}
+
+/* =========================================
+   RIGHT SIDE
+========================================= */
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  flex-shrink: 0;
+}
+
+.account-label {
+  color: #a8a8b5;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+/* =========================================
+   SIGN UP
+========================================= */
+
+.signup-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 11px 18px;
+
+  border-radius: 10px;
+
+  background: #8b5cf6;
+  color: #ffffff;
+
+  font-size: 0.9rem;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.signup-button:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.25);
+}
+
+/* =========================================
+   LOGIN
+========================================= */
+
+.login-link {
+  color: #a8a8b3;
+}
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+.logout-button {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+
+  padding: 10px 16px;
+
+  background: transparent;
+  color: #e7e7ed;
+
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.logout-button:hover {
+  background: rgba(255, 255, 255, 0.06);
+
+  border-color: rgba(139, 92, 246, 0.5);
+
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1000px) {
+  .navbar {
+    padding: 0 28px;
+
+    gap: 20px;
+  }
+
+  .nav-links {
+    gap: 22px;
+  }
+
+  .nav-links a,
+  .login-link {
+    font-size: 0.88rem;
+  }
+
+  .nav-actions {
+    gap: 12px;
+  }
+
+  .account-label {
+    font-size: 0.88rem;
+  }
+}
+
+/* =========================================
+   SMALL TABLET
+========================================= */
+
+@media (max-width: 800px) {
+  .navbar {
+    min-height: 68px;
+
+    padding: 0 20px;
+
+    gap: 14px;
+  }
+
+  .brand {
+    font-size: 1.1rem;
+  }
+
+  .nav-links {
+    gap: 16px;
+  }
+
+  .nav-links a {
+    font-size: 0.82rem;
+  }
+
+  .nav-actions {
+    gap: 10px;
+  }
+
+  .account-label {
+    display: none;
+  }
+
+  .login-link {
+    font-size: 0.82rem;
+  }
+
+  .signup-button,
+  .logout-button {
+    padding: 9px 13px;
+
+    font-size: 0.82rem;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .navbar {
+    min-height: 64px;
+
+    padding: 0 16px;
+
+    gap: 12px;
+  }
+
+  .brand {
+    font-size: 1.05rem;
+  }
+
+  .nav-links {
+    gap: 12px;
+
+    flex: 0 1 auto;
+  }
+
+  .nav-links a {
+    font-size: 0.75rem;
+  }
+
+  .nav-actions {
+    gap: 8px;
+  }
+
+  .login-link {
+    display: none;
+  }
+
+  .signup-button,
+  .logout-button {
+    padding: 8px 11px;
+
+    border-radius: 8px;
+
+    font-size: 0.75rem;
+  }
+}
+
+/* =========================================
+   VERY SMALL PHONES
+========================================= */
+
+@media (max-width: 420px) {
+  .navbar {
+    padding: 0 12px;
+
+    gap: 8px;
+  }
+
+  .brand {
+    font-size: 0.95rem;
+  }
+
+  .nav-links {
+    gap: 9px;
+  }
+
+  .nav-links a {
+    font-size: 0.68rem;
+  }
+
+  .signup-button,
+  .logout-button {
+    padding: 7px 9px;
+
+    font-size: 0.68rem;
+  }
+}
+
+/* =========================================
+   EXTRA SMALL PHONES
+========================================= */
+
+@media (max-width: 350px) {
+  .nav-links a:nth-child(3) {
+    display: none;
+  }
+
+  .brand {
+    font-size: 0.9rem;
+  }
+
+  .nav-links {
+    gap: 8px;
+  }
+}

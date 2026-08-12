@@ -15,6 +15,10 @@ function MovieDetails() {
   const [error, setError] = useState("");
   const [showsError, setShowsError] = useState("");
 
+  /* =========================================
+     FETCH MOVIE
+  ========================================= */
+
   useEffect(() => {
     const fetchMovie = async () => {
       try {
@@ -24,7 +28,8 @@ function MovieDetails() {
 
         setMovie(response.data.data);
       } catch (error) {
-        console.error(error);
+        console.error("Failed to load movie:", error);
+
         setError("Unable to load movie details.");
       } finally {
         setLoading(false);
@@ -33,6 +38,10 @@ function MovieDetails() {
 
     fetchMovie();
   }, [movieId]);
+
+  /* =========================================
+     FETCH SHOWS
+  ========================================= */
 
   useEffect(() => {
     const fetchShows = async () => {
@@ -46,7 +55,8 @@ function MovieDetails() {
 
         setShows(response.data.data || []);
       } catch (error) {
-        console.error(error);
+        console.error("Failed to load shows:", error);
+
         setShowsError("Unable to load showtimes.");
       } finally {
         setShowsLoading(false);
@@ -56,29 +66,47 @@ function MovieDetails() {
     fetchShows();
   }, [movieId]);
 
+  /* =========================================
+     SELECT SHOW
+  ========================================= */
+
   const handleSelectShow = (showId) => {
     navigate(`/shows/${showId}/seats`);
   };
 
+  /* =========================================
+     DATE / TIME FORMATTERS
+  ========================================= */
+
   const formatDate = (dateTime) => {
-    return new Date(dateTime).toLocaleDateString("en-IN", {
-      weekday: "short",
-      day: "numeric",
-      month: "short",
-    });
+    return new Date(dateTime).toLocaleDateString(
+      "en-IN",
+      {
+        weekday: "short",
+        day: "numeric",
+        month: "short",
+      }
+    );
   };
 
   const formatTime = (dateTime) => {
-    return new Date(dateTime).toLocaleTimeString("en-IN", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
+    return new Date(dateTime).toLocaleTimeString(
+      "en-IN",
+      {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      }
+    );
   };
+
+  /* =========================================
+     LOADING
+  ========================================= */
 
   if (loading) {
     return (
-      <main className="page">
+      <main className="page movie-details-page">
         <div className="loading">
           Loading movie...
         </div>
@@ -86,14 +114,21 @@ function MovieDetails() {
     );
   }
 
+  /* =========================================
+     ERROR
+  ========================================= */
+
   if (error) {
     return (
-      <main className="page">
+      <main className="page movie-details-page">
         <div className="error-message">
           {error}
         </div>
 
-        <Link to="/movies" className="back-link">
+        <Link
+          to="/movies"
+          className="movie-details-back"
+        >
           ← Back to movies
         </Link>
       </main>
@@ -104,18 +139,53 @@ function MovieDetails() {
     return null;
   }
 
+  /* =========================================
+     MOVIE DETAILS
+  ========================================= */
+
   return (
     <main className="page movie-details-page">
-      <Link to="/movies" className="back-link">
+
+      <Link
+        to="/movies"
+        className="movie-details-back"
+      >
         ← Back to movies
       </Link>
 
       <section className="movie-details">
+
+        {/* ================================
+            POSTER
+        ================================= */}
+
         <div className="movie-details-poster">
-          <span>{movie.title.charAt(0)}</span>
+
+          {movie.imageUrl ||
+          movie.posterUrl ||
+          movie.image ? (
+            <img
+              src={
+                movie.imageUrl ||
+                movie.posterUrl ||
+                movie.image
+              }
+              alt={`${movie.title} poster`}
+            />
+          ) : (
+            <span>
+              {movie.title?.charAt(0)}
+            </span>
+          )}
+
         </div>
 
+        {/* ================================
+            MOVIE INFORMATION
+        ================================= */}
+
         <div className="movie-details-content">
+
           <span className="section-eyebrow">
             MOVIE
           </span>
@@ -123,90 +193,142 @@ function MovieDetails() {
           <h1>{movie.title}</h1>
 
           <div className="movie-details-meta">
-            <span>{movie.language}</span>
+
+            <span>
+              {movie.language || "English"}
+            </span>
+
             <span>•</span>
-            <span>{movie.genre}</span>
+
+            <span>
+              {movie.genre || "Unknown"}
+            </span>
+
             <span>•</span>
-            <span>{movie.duration} min</span>
+
+            <span>
+              {movie.duration
+                ? `${movie.duration} min`
+                : "N/A"}
+            </span>
+
           </div>
 
-          <p className="movie-description">
+          <p className="movie-details-description">
             Experience {movie.title} on the big screen.
             Choose a showtime and book your seats.
           </p>
 
-          <div className="show-section">
+          {/* ================================
+              SHOWTIMES
+          ================================= */}
+
+          <section className="showtimes-section">
+
             <span className="section-eyebrow">
               SHOWTIMES
             </span>
 
             <h2>Select a show</h2>
 
+            {/* Loading */}
+
             {showsLoading && (
-              <div className="show-placeholder">
-                <p>Loading showtimes...</p>
+              <div className="showtime-list">
+                <div className="showtime-card">
+                  <span>
+                    Loading showtimes...
+                  </span>
+                </div>
               </div>
             )}
 
+            {/* Error */}
+
             {!showsLoading && showsError && (
-              <div className="show-placeholder">
-                <p>{showsError}</p>
+              <div className="showtime-list">
+                <div className="showtime-card">
+                  <span>
+                    {showsError}
+                  </span>
+                </div>
               </div>
             )}
+
+            {/* Empty */}
 
             {!showsLoading &&
               !showsError &&
               shows.length === 0 && (
-                <div className="show-placeholder">
-                  <p>
-                    No shows are currently available for this movie.
-                  </p>
+                <div className="showtime-list">
+                  <div className="showtime-card">
+                    <span>
+                      No shows are currently available
+                      for this movie.
+                    </span>
+                  </div>
                 </div>
               )}
+
+            {/* Shows */}
 
             {!showsLoading &&
               !showsError &&
               shows.length > 0 && (
-                <div className="show-list">
+                <div className="showtime-list">
+
                   {shows.map((show) => (
+
                     <div
                       key={show.id}
-                      className="show-card"
+                      className="showtime-card"
                     >
-                      <div className="show-card-info">
-                        <div className="show-date">
-                          {formatDate(show.startTime)}
-                        </div>
 
-                        <div className="show-time">
-                          {formatTime(show.startTime)}
-                        </div>
-
-                        <div className="show-screen">
-                          {show.screen}
-                        </div>
+                      <div className="showtime-date">
+                        {formatDate(
+                          show.startTime
+                        )}
                       </div>
 
-                      <div className="show-card-price">
-                        <span>₹{show.price}</span>
-
-                        <button
-                          type="button"
-                          className="show-select-button"
-                          onClick={() =>
-                            handleSelectShow(show.id)
-                          }
-                        >
-                          Select Seats
-                        </button>
+                      <div className="showtime-time">
+                        {formatTime(
+                          show.startTime
+                        )}
                       </div>
+
+                      <div className="showtime-theatre">
+                        {show.screen}
+                      </div>
+
+                      <div className="showtime-price">
+                        ₹{show.price}
+                      </div>
+
+                      <button
+                        type="button"
+                        className="select-seats-button"
+                        onClick={() =>
+                          handleSelectShow(
+                            show.id
+                          )
+                        }
+                      >
+                        Select Seats
+                      </button>
+
                     </div>
+
                   ))}
+
                 </div>
               )}
-          </div>
+
+          </section>
+
         </div>
+
       </section>
+
     </main>
   );
 }

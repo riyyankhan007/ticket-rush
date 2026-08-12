@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import api from "../api/axios";
+import "../styles/seats.css";
 
 function SeatSelection() {
   const { showId } = useParams();
@@ -104,6 +105,13 @@ function SeatSelection() {
     }
   };
 
+  /*
+   * Group seats by row.
+   *
+   * Example:
+   * A1, A2, A3...
+   * B1, B2, B3...
+   */
   const groupedSeats = seats.reduce((groups, seat) => {
     const row = seat.seat.charAt(0);
 
@@ -116,6 +124,9 @@ function SeatSelection() {
     return groups;
   }, {});
 
+  /*
+   * Sort seats numerically inside every row.
+   */
   Object.values(groupedSeats).forEach((rowSeats) => {
     rowSeats.sort((a, b) => {
       const numberA = parseInt(
@@ -132,9 +143,12 @@ function SeatSelection() {
     });
   });
 
+  /*
+   * Loading state
+   */
   if (loading) {
     return (
-      <main className="page">
+      <main className="page seat-selection-page">
         <div className="loading">
           Loading seats...
         </div>
@@ -144,12 +158,18 @@ function SeatSelection() {
 
   return (
     <main className="page seat-selection-page">
-      <div className="seat-page-header">
+
+      {/* =========================================
+          PAGE HEADER
+      ========================================= */}
+
+      <div className="seat-selection-header">
+
         <Link
           to="/movies"
-          className="back-link"
+          className="seat-back-link"
         >
-          ← Back
+          ← Back to movies
         </Link>
 
         <span className="section-eyebrow">
@@ -161,7 +181,13 @@ function SeatSelection() {
         <p>
           Select the seats you'd like to book.
         </p>
+
       </div>
+
+
+      {/* =========================================
+          ERROR MESSAGE
+      ========================================= */}
 
       {error && (
         <div className="auth-error booking-error">
@@ -169,132 +195,219 @@ function SeatSelection() {
         </div>
       )}
 
+
+      {/* =========================================
+          SEAT AREA + SUMMARY
+      ========================================= */}
+
       <div className="seat-layout">
+
+        {/* =========================================
+            SEAT MAP
+        ========================================= */}
+
         <section className="seat-map-container">
-          <div className="screen">
-            <div className="screen-light"></div>
-            <span>SCREEN</span>
+
+          {/* Screen */}
+
+          <div className="seat-screen-label">
+            SCREEN
           </div>
 
+          <div className="cinema-screen"></div>
+
+
+          {/* Seats */}
+
           <div className="seat-map">
+
             {Object.entries(groupedSeats).map(
               ([row, rowSeats]) => (
                 <div
                   className="seat-row"
                   key={row}
                 >
-                  <div className="row-label">
+
+                  {/* Row label */}
+
+                  <div className="seat-row-label">
                     {row}
                   </div>
 
-                  <div className="row-seats">
-                    {rowSeats.map((seat) => {
-                      const isSelected =
-                        selectedSeats.some(
-                          (selected) =>
-                            selected.id === seat.id
-                        );
 
-                      const isBooked =
-                        seat.status !== "AVAILABLE";
+                  {/* Seats in row */}
 
-                      return (
-                        <button
-                          key={seat.id}
-                          type="button"
-                          disabled={
-                            isBooked || booking
-                          }
-                          onClick={() =>
-                            toggleSeat(seat)
-                          }
-                          className={`seat ${
-                            isBooked
-                              ? "booked"
-                              : ""
-                          } ${
-                            isSelected
-                              ? "selected"
-                              : ""
-                          }`}
-                        >
-                          {seat.seat}
-                        </button>
+                  {rowSeats.map((seat) => {
+
+                    const isSelected =
+                      selectedSeats.some(
+                        (selected) =>
+                          selected.id === seat.id
                       );
-                    })}
-                  </div>
+
+                    const isBooked =
+                      seat.status !== "AVAILABLE";
+
+                    return (
+                      <button
+                        key={seat.id}
+                        type="button"
+                        disabled={
+                          isBooked || booking
+                        }
+                        onClick={() =>
+                          toggleSeat(seat)
+                        }
+                        className={`seat-button ${
+                          isBooked
+                            ? "booked"
+                            : ""
+                        } ${
+                          isSelected
+                            ? "selected"
+                            : ""
+                        }`}
+                      >
+                        {seat.seat}
+                      </button>
+                    );
+                  })}
+
                 </div>
               )
             )}
+
           </div>
+
+
+          {/* =========================================
+              LEGEND
+          ========================================= */}
 
           <div className="seat-legend">
-            <div>
-              <span className="legend-seat available"></span>
-              Available
+
+            <div className="seat-legend-item">
+
+              <span className="legend-seat"></span>
+
+              <span>
+                Available
+              </span>
+
             </div>
 
-            <div>
+
+            <div className="seat-legend-item">
+
               <span className="legend-seat selected"></span>
-              Selected
+
+              <span>
+                Selected
+              </span>
+
             </div>
 
-            <div>
+
+            <div className="seat-legend-item">
+
               <span className="legend-seat booked"></span>
-              Booked
+
+              <span>
+                Booked
+              </span>
+
             </div>
+
           </div>
+
         </section>
 
-        <aside className="selection-card">
+
+        {/* =========================================
+            BOOKING SUMMARY
+        ========================================= */}
+
+        <aside className="seat-summary">
+
           <span className="section-eyebrow">
             YOUR SELECTION
           </span>
 
+
+          {/* Selected seats */}
+
           {selectedSeats.length === 0 ? (
-            <h2>No seats selected</h2>
+
+            <h2>
+              No seats selected
+            </h2>
+
           ) : (
+
             <div className="selected-seat-list">
+
               {selectedSeats
                 .slice()
                 .sort((a, b) =>
                   a.seat.localeCompare(
                     b.seat,
                     undefined,
-                    { numeric: true }
+                    {
+                      numeric: true,
+                    }
                   )
                 )
                 .map((seat) => (
+
                   <span
                     className="selected-seat"
                     key={seat.id}
                   >
                     {seat.seat}
                   </span>
+
                 ))}
+
             </div>
+
           )}
+
 
           <div className="selection-divider"></div>
 
-          <div className="selection-row">
-            <span>Seats</span>
-            <span>{selectedSeats.length}</span>
-          </div>
 
-          <div className="selection-total">
-            <span>Total</span>
+          {/* Summary */}
 
-            <strong>
+          <div className="seat-summary-top">
+
+            <div>
+
+              <div className="seat-summary-label">
+                SEATS
+              </div>
+
+              <div className="seat-summary-count">
+                {selectedSeats.length}
+              </div>
+
+            </div>
+
+
+            <div className="seat-summary-price">
               ₹{totalAmount.toFixed(2)}
-            </strong>
+            </div>
+
           </div>
+
+
+          {/* Confirm */}
 
           <button
             type="button"
-            className="continue-button"
+            className="confirm-seats-button"
             disabled={
-              selectedSeats.length === 0 || booking
+              selectedSeats.length === 0 ||
+              booking
             }
             onClick={handleBooking}
           >
@@ -302,8 +415,11 @@ function SeatSelection() {
               ? "Booking..."
               : "Confirm Booking →"}
           </button>
+
         </aside>
+
       </div>
+
     </main>
   );
 }

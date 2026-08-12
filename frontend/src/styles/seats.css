@@ -1,0 +1,860 @@
+/* =========================================
+   SEAT SELECTION PAGE
+========================================= */
+
+.seat-selection-page {
+  width: 100%;
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding: 64px 5vw 100px;
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.seat-selection-header {
+  width: 100%;
+
+  margin-bottom: 42px;
+}
+
+.seat-back-link {
+  display: inline-flex;
+
+  align-items: center;
+
+  margin-bottom: 28px;
+
+  color: #b9b9c8;
+
+  font-size: 0.95rem;
+
+  font-weight: 600;
+
+  line-height: 1;
+
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.seat-back-link:hover {
+  color: #ffffff;
+
+  transform: translateX(-3px);
+}
+
+.seat-selection-header .section-eyebrow {
+  display: block;
+
+  margin-bottom: 12px;
+}
+
+.seat-selection-header h1 {
+  margin: 0 0 12px;
+
+  color: #f5f5f7;
+
+  font-size: clamp(2.5rem, 5vw, 4.2rem);
+
+  line-height: 0.98;
+
+  letter-spacing: -0.055em;
+}
+
+.seat-selection-header p {
+  margin: 0;
+
+  color: #9999a8;
+
+  font-size: 1rem;
+
+  line-height: 1.6;
+}
+
+/* =========================================
+   ERROR
+========================================= */
+
+.booking-error {
+  width: 100%;
+
+  margin-bottom: 24px;
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   MAIN LAYOUT
+========================================= */
+
+.seat-layout {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    330px;
+
+  gap: 36px;
+
+  width: 100%;
+
+  align-items: start;
+}
+
+/* =========================================
+   SEAT MAP CARD
+========================================= */
+
+.seat-map-container {
+  width: 100%;
+
+  min-width: 0;
+
+  box-sizing: border-box;
+
+  padding: 38px 30px 28px;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(139, 92, 246, 0.08),
+      transparent 40%
+    ),
+    #111117;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.25);
+}
+
+/* =========================================
+   SCREEN
+========================================= */
+
+.seat-screen-label {
+  margin-bottom: 18px;
+
+  text-align: center;
+
+  color: #8e8e9b;
+
+  font-size: 0.72rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.2em;
+}
+
+.cinema-screen {
+  position: relative;
+
+  width: min(700px, 82%);
+
+  height: 10px;
+
+  margin: 0 auto 68px;
+
+  background: #ffffff;
+
+  border-radius: 50%;
+
+  transform:
+    perspective(500px)
+    rotateX(-10deg);
+
+  box-shadow:
+    0 8px 25px rgba(255, 255, 255, 0.5),
+    0 0 50px rgba(255, 255, 255, 0.18);
+}
+
+.cinema-screen::after {
+  content: "";
+
+  position: absolute;
+
+  left: 7%;
+
+  right: 7%;
+
+  bottom: -28px;
+
+  height: 32px;
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(255, 255, 255, 0.14),
+      transparent 70%
+    );
+
+  filter: blur(8px);
+
+  pointer-events: none;
+}
+
+/* =========================================
+   SEAT MAP
+========================================= */
+
+.seat-map {
+  width: 100%;
+
+  overflow-x: auto;
+
+  box-sizing: border-box;
+
+  padding: 4px 5px 22px;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    #4a425c
+    transparent;
+}
+
+.seat-map::-webkit-scrollbar {
+  height: 6px;
+}
+
+.seat-map::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.seat-map::-webkit-scrollbar-thumb {
+  background: #40384f;
+
+  border-radius: 10px;
+}
+
+/* =========================================
+   SEAT ROW
+========================================= */
+
+.seat-row {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  width: max-content;
+
+  margin-bottom: 10px;
+}
+
+.seat-row:last-child {
+  margin-bottom: 0;
+}
+
+/* =========================================
+   ROW LABEL
+========================================= */
+
+.seat-row-label {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 28px;
+
+  flex-shrink: 0;
+
+  color: #9b9ba8;
+
+  font-size: 0.78rem;
+
+  font-weight: 700;
+
+  text-align: center;
+}
+
+/* =========================================
+   SEAT BUTTON
+========================================= */
+
+.seat-button {
+  appearance: none;
+
+  -webkit-appearance: none;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 38px;
+
+  height: 34px;
+
+  min-width: 38px;
+
+  max-width: 38px;
+
+  padding: 0;
+
+  margin: 0;
+
+  box-sizing: border-box;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  border-radius: 7px;
+
+  background: #1b1b24;
+
+  color: #bdbdc8;
+
+  font-family: inherit;
+
+  font-size: 0.68rem;
+
+  font-weight: 600;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  box-shadow: none;
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+/* Available hover */
+
+.seat-button:hover:not(:disabled) {
+  background: #29213d;
+
+  border-color: #8b5cf6;
+
+  color: #ffffff;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 5px 14px rgba(139, 92, 246, 0.18);
+}
+
+/* =========================================
+   SELECTED SEAT
+========================================= */
+
+.seat-button.selected {
+  background: #8b5cf6;
+
+  border-color: #8b5cf6;
+
+  color: #ffffff;
+
+  box-shadow:
+    0 0 16px rgba(139, 92, 246, 0.4);
+}
+
+.seat-button.selected:hover {
+  background: #9b6cff;
+
+  border-color: #9b6cff;
+}
+
+/* =========================================
+   BOOKED SEAT
+========================================= */
+
+.seat-button.booked,
+.seat-button:disabled {
+  background: #0d0d12;
+
+  border-color: #292930;
+
+  color: #464650;
+
+  opacity: 0.75;
+
+  cursor: not-allowed;
+}
+
+.seat-button.booked:hover,
+.seat-button:disabled:hover {
+  transform: none;
+
+  box-shadow: none;
+}
+
+/* =========================================
+   LEGEND
+========================================= */
+
+.seat-legend {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 26px;
+
+  margin-top: 26px;
+
+  color: #9999a8;
+
+  font-size: 0.78rem;
+}
+
+.seat-legend-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+.legend-seat {
+  display: inline-block;
+
+  width: 16px;
+
+  height: 16px;
+
+  box-sizing: border-box;
+
+  border-radius: 5px;
+
+  background: #1b1b24;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.legend-seat.selected {
+  background: #8b5cf6;
+
+  border-color: #8b5cf6;
+}
+
+.legend-seat.booked {
+  background: #0d0d12;
+
+  border-color: #292930;
+}
+
+/* =========================================
+   BOOKING SUMMARY
+========================================= */
+
+.seat-summary {
+  position: sticky;
+
+  top: 100px;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 28px;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(139, 92, 246, 0.1),
+      transparent 45%
+    ),
+    #121218;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.28);
+}
+
+.seat-summary .section-eyebrow {
+  display: block;
+
+  margin-bottom: 18px;
+}
+
+.seat-summary h2 {
+  margin: 0;
+
+  color: #8f8f9c;
+
+  font-size: 1.15rem;
+
+  font-weight: 500;
+}
+
+/* =========================================
+   SELECTED SEATS
+========================================= */
+
+.selected-seat-list {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.selected-seat {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-width: 40px;
+
+  padding: 8px 10px;
+
+  box-sizing: border-box;
+
+  background: rgba(139, 92, 246, 0.12);
+
+  border: 1px solid rgba(139, 92, 246, 0.35);
+
+  border-radius: 8px;
+
+  color: #c4b5fd;
+
+  font-size: 0.8rem;
+
+  font-weight: 700;
+}
+
+/* =========================================
+   DIVIDER
+========================================= */
+
+.selection-divider {
+  width: 100%;
+
+  height: 1px;
+
+  margin: 24px 0;
+
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* =========================================
+   SUMMARY TOP
+========================================= */
+
+.seat-summary-top {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.seat-summary-label {
+  color: #9999a8;
+
+  font-size: 0.75rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.1em;
+}
+
+.seat-summary-count {
+  margin-top: 5px;
+
+  color: #ffffff;
+
+  font-size: 1.05rem;
+
+  font-weight: 700;
+}
+
+.seat-summary-price {
+  color: #ffffff;
+
+  font-size: 1.45rem;
+
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+/* =========================================
+   CONFIRM BUTTON
+========================================= */
+
+.confirm-seats-button {
+  appearance: none;
+
+  -webkit-appearance: none;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 100%;
+
+  min-height: 50px;
+
+  margin-top: 24px;
+
+  padding: 13px 18px;
+
+  box-sizing: border-box;
+
+  border: none;
+
+  border-radius: 11px;
+
+  background: #8b5cf6;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 0.92rem;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.confirm-seats-button:hover:not(:disabled) {
+  background: #7c3aed;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 25px rgba(139, 92, 246, 0.25);
+}
+
+.confirm-seats-button:disabled {
+  background: #292933;
+
+  color: #666672;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+  .seat-selection-page {
+    padding: 56px 32px 90px;
+  }
+
+  .seat-layout {
+    grid-template-columns:
+      minmax(0, 1fr)
+      290px;
+
+    gap: 26px;
+  }
+
+  .seat-map-container {
+    padding: 32px 20px 25px;
+  }
+
+  .seat-button {
+    width: 35px;
+
+    min-width: 35px;
+
+    max-width: 35px;
+
+    height: 32px;
+  }
+
+  .seat-row {
+    gap: 6px;
+  }
+}
+
+/* =========================================
+   TABLET / MOBILE
+========================================= */
+
+@media (max-width: 850px) {
+  .seat-selection-page {
+    padding: 48px 24px 80px;
+  }
+
+  .seat-layout {
+    grid-template-columns: 1fr;
+
+    gap: 28px;
+  }
+
+  .seat-summary {
+    position: static;
+  }
+
+  .cinema-screen {
+    width: 75%;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .seat-selection-page {
+    padding: 38px 16px 65px;
+  }
+
+  .seat-selection-header {
+    margin-bottom: 32px;
+  }
+
+  .seat-back-link {
+    margin-bottom: 22px;
+
+    font-size: 0.88rem;
+  }
+
+  .seat-selection-header h1 {
+    font-size: 2.35rem;
+  }
+
+  .seat-selection-header p {
+    font-size: 0.92rem;
+  }
+
+  .seat-map-container {
+    padding: 28px 12px 22px;
+
+    border-radius: 18px;
+  }
+
+  .cinema-screen {
+    width: 78%;
+
+    height: 9px;
+
+    margin-bottom: 58px;
+  }
+
+  .seat-map {
+    padding: 4px 3px 18px;
+  }
+
+  .seat-row {
+    gap: 5px;
+
+    margin-bottom: 8px;
+  }
+
+  .seat-row-label {
+    width: 22px;
+
+    font-size: 0.68rem;
+  }
+
+  .seat-button {
+    width: 31px;
+
+    min-width: 31px;
+
+    max-width: 31px;
+
+    height: 29px;
+
+    border-radius: 6px;
+
+    font-size: 0.55rem;
+  }
+
+  .seat-legend {
+    gap: 15px;
+
+    margin-top: 24px;
+
+    font-size: 0.7rem;
+  }
+
+  .legend-seat {
+    width: 15px;
+
+    height: 15px;
+  }
+
+  .seat-summary {
+    padding: 22px;
+
+    border-radius: 17px;
+  }
+}
+
+/* =========================================
+   SMALL PHONES
+========================================= */
+
+@media (max-width: 400px) {
+  .seat-selection-page {
+    padding: 32px 12px 55px;
+  }
+
+  .seat-selection-header h1 {
+    font-size: 2.1rem;
+  }
+
+  .seat-map-container {
+    padding: 25px 9px 20px;
+  }
+
+  .cinema-screen {
+    width: 82%;
+  }
+
+  .seat-button {
+    width: 29px;
+
+    min-width: 29px;
+
+    max-width: 29px;
+
+    height: 27px;
+
+    font-size: 0.5rem;
+  }
+
+  .seat-row {
+    gap: 4px;
+  }
+
+  .seat-summary {
+    padding: 18px;
+  }
+}
